@@ -1,15 +1,15 @@
-function! ncrement#nextword() abort
-  call s:rotate_word_func(1)
+function! ncrement#nextword(count) abort
+  call s:rotate_word_func(1,a:count)
 endfunction
-function! ncrement#prevword() abort
-  call s:rotate_word_func(-1)
+function! ncrement#prevword(count) abort
+  call s:rotate_word_func(-1,a:count)
 endfunction
 
 let g:wordlist_d_1 = ["a)", "b)", "c)", "d)"]
 let g:wordlist_d_2 = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 let g:wordlists = [g:wordlist_d_1, g:wordlist_d_2]
 
-function! s:rotate_word_func(way) abort
+function! s:rotate_word_func(way,count) abort
   " Find targets at under or right side of cursor
   let a:word_positions = {}
   let a:cursor_col = col('.')-1
@@ -33,12 +33,10 @@ function! s:rotate_word_func(way) abort
   let a:targetword = keys(a:word_positions)[0]
   for a:wordlist in g:wordlists
     if count(a:wordlist,a:targetword) > 0
-      let a:nextidx = index(a:wordlist,a:targetword)+1
-      let a:nextidx = a:nextidx>=len(a:wordlist) ? 0 : a:nextidx
+      let a:nextidx = (index(a:wordlist,a:targetword)+a:count) % len(a:wordlist)
       let a:nextword = a:wordlist[a:nextidx]
 
-      let a:previdx = index(a:wordlist,a:targetword)-1
-      let a:previdx = a:previdx<0 ? len(a:wordlist)-1 : a:previdx
+      let a:previdx = (index(a:wordlist,a:targetword)-a:count) % len(a:wordlist)
       let a:prevword = a:wordlist[a:previdx]
     endif
   endfor

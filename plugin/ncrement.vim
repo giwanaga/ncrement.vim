@@ -3,5 +3,10 @@ if exists('g:loaded_ncremnet')
 endif
 let g:loaded_ncrement=1
 
-command! NextWord call ncrement#nextword()
-command! PrevWord call ncrement#prevword()
+"command! NextWord call ncrement#nextword()
+if !exists(":NextWord")
+  command! -count=1 NextWord call ncrement#nextword(<count>)
+endif
+if !exists("PrevWord")
+  command! -count=1 PrevWord call ncrement#prevword(<count>)
+endif

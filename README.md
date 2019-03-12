@@ -4,11 +4,13 @@ ncrement.vim is designed as an enhancer for increment/decrement actions.
 
 Suppose `<C-a>` to shift Monday to Tuesday.
 
-=====
+---
 
 But currently it's still under development.
 
-Now it provides features to rotate forward/backward a word following pre-defined lists.
+Now it provides features to rotate forward/backward a word based on pre-defined lists.
+
+In other words, it ignores `<C-a>`/`<C-d>` at all.
 
 ## Usage
 `:NextWord` changes a word to next word in pre-defined list.

@@ -7,6 +7,6 @@ let g:loaded_ncrement=1
 if !exists(":NextWord")
   command! -count=1 NextWord call ncrement#nextword(<count>)
 endif
-if !exists("PrevWord")
+if !exists(":PrevWord")
   command! -count=1 PrevWord call ncrement#prevword(<count>)
 endif

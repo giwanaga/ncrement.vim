@@ -5,16 +5,16 @@ function! ncrement#prevword(count) abort
   call s:rotate_word_func(-1,a:count)
 endfunction
 
-let g:wordlist_d_1 = ["a)", "b)", "c)", "d)"]
-let g:wordlist_d_2 = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-let g:wordlists = [g:wordlist_d_1, g:wordlist_d_2]
+let g:ncrement_d_wordlist_1 = ["a)", "b)", "c)", "d)"]
+let g:ncrement_d_wordlist_2 = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+let g:ncrement_wordlists = [g:ncrement_d_wordlist_1, g:ncrement_d_wordlist_2]
 
 function! s:rotate_word_func(way,count) abort
   " Find targets at under or right side of cursor
   let a:word_positions = {}
   let a:cursor_col = col('.')-1
   let a:workline = getline('.')[a:cursor_col:]
-  for a:wordlist in g:wordlists
+  for a:wordlist in g:ncrement_wordlists
     for a:word in a:wordlist
       let a:foundidx = stridx(a:workline, a:word)
       if a:foundidx > -1
@@ -31,7 +31,7 @@ function! s:rotate_word_func(way,count) abort
   call filter(a:word_positions, "v:val <= " . min(a:word_positions))
 
   let a:targetword = keys(a:word_positions)[0]
-  for a:wordlist in g:wordlists
+  for a:wordlist in g:ncrement_wordlists
     if count(a:wordlist,a:targetword) > 0
       let a:nextidx = (index(a:wordlist,a:targetword)+a:count) % len(a:wordlist)
       let a:nextword = a:wordlist[a:nextidx]

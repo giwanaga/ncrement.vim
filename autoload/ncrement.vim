@@ -5,8 +5,8 @@ function! ncrement#prevword(count) abort
   call s:rotate_word_func(-1,a:count)
 endfunction
 
-let g:ncrement_d_wordlist_1 = ["a)", "b)", "c)", "d)"]
-let g:ncrement_d_wordlist_2 = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+let g:ncrement_d_wordlist_1 = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+let g:ncrement_d_wordlist_2 = ["[ ]", "[/]", "[x]"]
 let g:ncrement_wordlists = [g:ncrement_d_wordlist_1, g:ncrement_d_wordlist_2]
 
 function! s:rotate_word_func(way,count) abort

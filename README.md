@@ -1,16 +1,10 @@
 # ncrement.vim
 
-ncrement.vim is designed as an enhancer for increment/decrement actions.
+ncrement provides incremental/decremental word-shifting features.
 
-Suppose `<C-a>` to shift Monday to Tuesday.
+It behaves similarly to `<C-a>` and `<C-d>` on your editing line.
 
----
-
-But currently it's still under development.
-
-Now it provides features to rotate forward/backward a word based on pre-defined lists.
-
-In other words, it ignores `<C-a>`/`<C-d>` at all.
+Suppose execute `:NextWord` (a provided command of ncrement) to change "Monday" to "Tuesday".
 
 ## Usage
 `:NextWord` changes a word to next word in pre-defined list.

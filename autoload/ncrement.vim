@@ -6,8 +6,8 @@ function! ncrement#prevword(count) abort
 endfunction
 
 let g:ncrement_d_wordlist_1 = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-let g:ncrement_d_wordlist_2 = ["[ ]", "[x]"]
-let g:ncrement_d_wordlist_3 = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+let g:ncrement_d_wordlist_2 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+let g:ncrement_d_wordlist_3 = ["[ ]", "[x]"]
 
 function! s:rotate_word_func(way,count) abort
   let a:word_positions = {}

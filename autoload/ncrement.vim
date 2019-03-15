@@ -6,14 +6,20 @@ function! ncrement#prevword(count) abort
 endfunction
 
 let g:ncrement_d_wordlist_1 = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-let g:ncrement_d_wordlist_2 = ["[ ]", "[/]", "[x]"]
-let g:ncrement_wordlists = [g:ncrement_d_wordlist_1, g:ncrement_d_wordlist_2]
+let g:ncrement_d_wordlist_2 = ["[ ]", "[x]"]
+let g:ncrement_d_wordlist_3 = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 function! s:rotate_word_func(way,count) abort
-  " Find targets at under or right side of cursor
   let a:word_positions = {}
   let a:cursor_col = col('.')-1
   let a:workline = getline('.')[a:cursor_col:]
+
+  if exists("g:ncrement_autoupdate") && g:ncrement_autoupdate == 1
+    call ncrement#update_word_list()
+  elseif !exists("g:ncrement_wordlists")
+    call ncrement#update_word_list()
+  endif
+
   for a:wordlist in g:ncrement_wordlists
     for a:word in a:wordlist
       let a:foundidx = stridx(a:workline, a:word)
@@ -52,4 +58,31 @@ function! s:rotate_word_func(way,count) abort
   call cursor(line('.'), a:target_position)
   execute "normal! v" . expand(len(a:targetword)-1) . "lc" . a:replacer
   execute "normal! " . expand(len(a:replacer)-1) . "h"
+endfunction
+
+function! ncrement#update_word_list() abort
+  let a:wkletg = execute("let g:")
+  let a:letg = split(a:wkletg, "\n")
+  let a:wordlists_d = []
+  let a:wordlists_u = []
+  for a:line in a:letg
+    let a:listname = split(a:line, " ")[0]
+    if stridx(a:listname, "ncrement_d_wordlist_") == 0
+      " let a:list = expand(a:line[(len(a:listname)+1):])
+      call execute("let a:tmplist = g:" . a:listname)
+      call insert(a:wordlists_d, a:tmplist)
+    elseif stridx(a:listname, "ncrement_u_wordlist_") == 0
+      call execute("let a:tmplist = g:" . a:listname)
+      call insert(a:wordlists_u, a:tmplist)
+      " let a:list = expand(a:line[(len(a:listname)+1):])
+      " call insert(a:wordlists_u, a:list)
+      "call insert(a:wordlists_u, a:listname)
+    endif
+  endfor
+
+  if exists("g:ncrement_use_dlist") && g:ncrement_use_dlist == 0
+    let a:wordlists_d = []
+  endif
+  
+  let g:ncrement_wordlists = sort(a:wordlists_u) + sort(a:wordlists_d)
 endfunction

@@ -3,6 +3,8 @@ ncrement provides incremental/decremental word-shifting features.
 It behaves similarly to `<C-a>` and `<C-d>` on your editing line.  
 Suppose execute `:NextWord` (a provided command of ncrement) to change "Monday" to "Tuesday".  
 
+Inspired by [monday.vim](https://www.vim.org/scripts/script.php?script_id=1046) by Stefan Karisson.
+
 ## Example
 Here show you an example.  
 Suppose you have a list as below.

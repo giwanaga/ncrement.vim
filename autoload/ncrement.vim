@@ -14,9 +14,7 @@ function! s:rotate_word_func(way,count) abort
   let a:cursor_col = col('.')-1
   let a:workline = getline('.')[a:cursor_col:]
 
-  if exists("g:ncrement_autoupdate") && g:ncrement_autoupdate == 1
-    call ncrement#update_word_list()
-  elseif !exists("g:ncrement_wordlists")
+  if !exists("g:ncrement_autoupdate") || g:ncrement_autoupdate != 0
     call ncrement#update_word_list()
   endif
 

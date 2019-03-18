@@ -54,23 +54,15 @@ let g:ncrement_u_wordlist_1 = ["Female", "Male"]
 let g:ncrement_u_wordlist_2 = ["Monkey", "Ape", "Human"]
 ```
 
-ncrement has some default word lists.  
-Currently days, months and some more are available.  
-However, it's not allowed to have a same word twice or more.  
-You can ignore the default lists with the setting below.  
+ncrement always fetches wordlists to find words.
+So your update on the settings above will be reflected immediately.
+But it perhaps makes processes slow.
+To avoid it, you can have it perform only when you call.
 
 ```
-let g:ncrement_use_dlist = 0
+let g:ncrement_autoupdate = 0
 ```
 
-ncrement doesn't check update of setting regularly by default.  
-Whenever you change its setting, basically you need to run `:UpdateWordList`.  
-So ncrement reconfigure its word lists with your latest setting.  
+`:UpdateWordList` is the command to update wordlists manually.
 
-And here your another way for continuous update.  
-With the setting below, ncrement automatically calls the update function.
-
-```
-let g:ncrement_autoupdate = 1
-```
 

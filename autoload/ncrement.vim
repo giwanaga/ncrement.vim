@@ -14,7 +14,10 @@ function! s:rotate_word_func(way,count) abort
   let a:cursor_col = col('.')-1
   let a:workline = getline('.')[a:cursor_col:]
 
+
   if !exists("g:ncrement_autoupdate") || g:ncrement_autoupdate != 0
+    call ncrement#update_word_list()
+  elseif !exists("g:ncrement_wordlists")
     call ncrement#update_word_list()
   endif
 
@@ -66,15 +69,11 @@ function! ncrement#update_word_list() abort
   for a:line in a:letg
     let a:listname = split(a:line, " ")[0]
     if stridx(a:listname, "ncrement_d_wordlist_") == 0
-      " let a:list = expand(a:line[(len(a:listname)+1):])
       call execute("let a:tmplist = g:" . a:listname)
       call insert(a:wordlists_d, a:tmplist)
     elseif stridx(a:listname, "ncrement_u_wordlist_") == 0
       call execute("let a:tmplist = g:" . a:listname)
       call insert(a:wordlists_u, a:tmplist)
-      " let a:list = expand(a:line[(len(a:listname)+1):])
-      " call insert(a:wordlists_u, a:list)
-      "call insert(a:wordlists_u, a:listname)
     endif
   endfor
 

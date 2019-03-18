@@ -10,6 +10,12 @@ endif
 if !exists(":PrevWord")
   command! -count=1 PrevWord call ncrement#prevword(<count>)
 endif
+if !exists(":NextWordOf")
+  command! -nargs=1 -count=1 NextWordOf call ncrement#nextword_of(<f-args>, <count>)
+endif
+if !exists(":PrevWordOf")
+  command! -nargs=1 -count=1 PrevWordOf call ncrement#prevword_of(<f-args>, <count>)
+endif
 if !exists(":UpdateWordList")
   command! UpdateWordList call ncrement#update_word_list()
 endif

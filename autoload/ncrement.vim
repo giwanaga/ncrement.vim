@@ -1,27 +1,50 @@
 function! ncrement#nextword(count) abort
-  call s:rotate_word_func(1,a:count)
+  call <SID>rotate_word(1,a:count)
 endfunction
 function! ncrement#prevword(count) abort
-  call s:rotate_word_func(-1,a:count)
+  call <SID>rotate_word(-1,a:count)
+endfunction
+function! ncrement#nextword_of(listname, count) abort
+  call <SID>rotate_word_of(a:listname,1,a:count)
+endfunction
+function! ncrement#prevword_of(listname, count) abort
+  call <SID>rotate_word_of(a:listname,-1,a:count)
 endfunction
 
 let g:ncrement_d_wordlist_1 = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 let g:ncrement_d_wordlist_2 = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 let g:ncrement_d_wordlist_3 = ["[ ]", "[x]"]
 
-function! s:rotate_word_func(way,count) abort
-  let a:word_positions = {}
-  let a:cursor_col = col('.')-1
-  let a:workline = getline('.')[a:cursor_col:]
+function! s:fetch_wordlists_specified(listname) abort
+  call execute("let a:tmplist = g:" . a:listname)
+  return [a:tmplist]
+endfunction
 
-
+function! s:fetch_wordlists() abort
   if !exists("g:ncrement_autoupdate") || g:ncrement_autoupdate != 0
     call ncrement#update_word_list()
   elseif !exists("g:ncrement_wordlists")
     call ncrement#update_word_list()
   endif
+  return g:ncrement_wordlists
+endfunction
 
-  for a:wordlist in g:ncrement_wordlists
+function! s:rotate_word_of(listname,way,count) abort
+  let a:wordlists = <SID>fetch_wordlists_specified(a:listname)
+  call <SID>rotate_word_func(a:wordlists,a:way,a:count)
+endfunction
+
+function! s:rotate_word(way,count) abort
+  let a:wordlists = <SID>fetch_wordlists()
+  call <SID>rotate_word_func(a:wordlists,a:way,a:count)
+endfunction
+
+function! s:rotate_word_func(wordlists,way,count) abort
+  let a:word_positions = {}
+  let a:cursor_col = col('.')-1
+  let a:workline = getline('.')[a:cursor_col:]
+
+  for a:wordlist in a:wordlists
     for a:word in a:wordlist
       let a:foundidx = stridx(a:workline, a:word)
       if a:foundidx > -1
@@ -36,7 +59,6 @@ function! s:rotate_word_func(way,count) abort
     return
   endif
   call filter(a:word_positions, "v:val <= " . min(a:word_positions))
-
   let a:targetword = keys(a:word_positions)[0]
   for a:wordlist in g:ncrement_wordlists
     if count(a:wordlist,a:targetword) > 0
@@ -55,7 +77,7 @@ function! s:rotate_word_func(way,count) abort
   else
     let a:replacer = a:prevword
   endif
-  
+
   call cursor(line('.'), a:target_position)
   execute "normal! v" . expand(len(a:targetword)-1) . "lc" . a:replacer
   execute "normal! " . expand(len(a:replacer)-1) . "h"

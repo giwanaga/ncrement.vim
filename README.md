@@ -45,6 +45,33 @@ nnoremap <silent><leader>n :NextWord<CR>
 nnoremap <silent><leader>p :PrevWord<CR>
 ```
 
+### Advanced Usage
+You can specify a wordlist to be searched by ncrement.
+
+```.vimrc
+let g:ncrement_u_wordlist_pod = ["morning", "afternoon", "evening"]
+nnoremap <silent><leader>sn :NextWordOf ncrement_u_wordlist_pod<CR>
+nnoremap <silent><leader>sp :PrevWordOf ncrement_u_wordlist_pod<CR>
+```
+
+Let's suppose that you have a line editing as "TARGET LINE" below.  
+Your cursor is at its head.  
+When you execute ":NextWord", you find "Monday" becomes "Tuesday", because "Monday" is the nearest target to your cursor.  
+":NextWordOf ncrement_u_wordlist_pod" searches only words in the specified word list.  
+I.e. "afternoon" hits first and gets replaced to "evening".  
+"Monday" is out of its targets.
+
+```example.txt
+<TARGET LINE>
+Monday afternoon
+
+:NextWord
+Tuesday afternoon
+
+:NextWordOf ncrement_u_wordlist_pod
+Monday evening
+```
+
 ### Settings
 You can define your own word lists in your .vimrc.  
 Names of every lists must start with `g:ncrement_u_wordlist_`.

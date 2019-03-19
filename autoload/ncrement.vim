@@ -16,6 +16,11 @@ let g:ncrement_d_wordlist_2 = ["January", "February", "March", "April", "May", "
 let g:ncrement_d_wordlist_3 = ["[ ]", "[x]"]
 
 function! s:fetch_wordlists_specified(listname) abort
+  if !exists("g:ncrement_autoupdate") || g:ncrement_autoupdate != 0
+    call ncrement#update_word_lists()
+  elseif !exists("g:ncrement_wordlists")
+    call ncrement#update_word_lists()
+  endif
   call execute("let a:tmplist = g:" . a:listname)
   return [a:tmplist]
 endfunction

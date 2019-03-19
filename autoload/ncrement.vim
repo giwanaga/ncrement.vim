@@ -99,7 +99,7 @@ function! ncrement#update_word_lists() abort
     endif
   endfor
 
-  if exists("g:ncrement_use_dlist") && g:ncrement_use_dlist == 0
+  if exists("g:ncrement_use_dlists") && g:ncrement_use_dlists == 0
     let a:wordlists_d = []
   endif
   

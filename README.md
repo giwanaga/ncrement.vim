@@ -45,6 +45,8 @@ nnoremap <silent><leader>n :NextWord<CR>
 nnoremap <silent><leader>p :PrevWord<CR>
 ```
 
+Execute `:CheckWordLists` to find current active word lists.
+
 ### Advanced Usage
 You can specify a word list to be searched by ncrement.
 
@@ -56,8 +58,9 @@ nnoremap <silent><leader>sp :PrevWordOf ncrement_u_wordlist_pod<CR>
 
 Let's suppose that you have a line editing as "TARGET LINE" below.  
 Your cursor is at its head.  
-When you execute ":NextWord", you find "Monday" becomes "Tuesday", because "Monday" is the nearest target to your cursor.  
-":NextWordOf ncrement_u_wordlist_pod" searches only words in the specified word list.  
+When you execute ":NextWord", you find "Monday" becomes "Tuesday",  
+because "Monday" is the nearest target to your cursor.  
+`:NextWordOf ncrement_u_wordlist_pod` searches only words in the specified word list.  
 I.e. "afternoon" hits first and gets replaced to "evening".  
 "Monday" is out of its targets.
 
@@ -100,6 +103,6 @@ If you're using dein.vim, add ncrement to your dein.toml.
 [[plugins]]
 repo = 'giwanaga/ncrement.vim'
 ```
-Then do `:call dein#install()` or reboot your vim.
+Then do `:call dein#install()` or reboot your vim.  
 Maybe mostly any plugin managers work fine.
 

@@ -46,7 +46,7 @@ nnoremap <silent><leader>p :PrevWord<CR>
 ```
 
 ### Advanced Usage
-You can specify a wordlist to be searched by ncrement.
+You can specify a word list to be searched by ncrement.
 
 ```.vimrc
 let g:ncrement_u_wordlist_pod = ["morning", "afternoon", "evening"]
@@ -81,7 +81,7 @@ let g:ncrement_u_wordlist_1 = ["Female", "Male"]
 let g:ncrement_u_wordlist_2 = ["Monkey", "Ape", "Human"]
 ```
 
-ncrement always fetches wordlists to find words.
+ncrement always fetches word lists to find words.
 So your update on the settings above will be reflected immediately.
 But it perhaps makes processes slow.
 To avoid it, you can have it perform only when you call.
@@ -90,6 +90,6 @@ To avoid it, you can have it perform only when you call.
 let g:ncrement_autoupdate = 0
 ```
 
-`:UpdateWordList` is the command to update wordlists manually.
+`:UpdateWordLists` is the command to update word lists manually.
 
 

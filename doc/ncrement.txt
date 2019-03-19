@@ -7,7 +7,6 @@ CONTENTS                                *ncrement-contents*
 
 Introduction          |ncrement-introduction|
 Usage                 |ncrement-usage|
-Installation          |ncrement-install|
 ============================================================
 Introduction                        *ncrement-introduction*
 
@@ -101,13 +100,4 @@ To avoid it, you can have it perform only when you call.
 
                                          *:UpdateWordLists*
 :UpdateWordLists is the command to update word lists manually.
-
-============================================================
-Installation                             *ncrement-install*
-
-dein.vim
-    call dein#add('giwanaga/ncrement.vim')
-
-Not sure if the other plugin managers work fine.
-But mostly anyway should go well:)
 

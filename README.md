@@ -93,3 +93,13 @@ let g:ncrement_autoupdate = 0
 `:UpdateWordLists` is the command to update word lists manually.
 
 
+## Installation
+If you're using dein.vim, add ncrement to your dein.toml.
+
+```dein.toml
+[[plugins]]
+repo = 'giwanaga/ncrement.vim'
+```
+Then do `:call dein#install()` or reboot your vim.
+Maybe mostly any plugin managers work fine.
+

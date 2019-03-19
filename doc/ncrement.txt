@@ -83,7 +83,7 @@ You can specify a word list to search with the commands below.
 
 A recommended way is keymap, such as the following.
 
-    nnoremap <silent><leader>w1n :<C-u>NextWordOf ncrement_u_wordlist1<CR>
+    nnoremap <silent><leader>w1n :<C-u>NextWordOf ncrement_u_wordlist_1<CR>
 
 
                                           *:CheckWordLists*

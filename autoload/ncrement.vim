@@ -84,12 +84,10 @@ function! s:rotate_word_func(wordlists,way,count) abort
 endfunction
 
 function! ncrement#update_word_lists() abort
-  let a:wkletg = execute("let g:")
-  let a:letg = split(a:wkletg, "\n")
+  let a:listnames = <SID>fetch_wordlist_names()
   let a:wordlists_d = []
   let a:wordlists_u = []
-  for a:line in a:letg
-    let a:listname = split(a:line, " ")[0]
+  for a:listname in a:listnames
     if stridx(a:listname, "ncrement_d_wordlist_") == 0
       call execute("let a:tmplist = g:" . a:listname)
       call insert(a:wordlists_d, a:tmplist)
@@ -98,10 +96,39 @@ function! ncrement#update_word_lists() abort
       call insert(a:wordlists_u, a:tmplist)
     endif
   endfor
+  
+  let g:ncrement_wordlists = a:wordlists_u + a:wordlists_d
+endfunction
+
+function! s:fetch_wordlist_names() abort
+  let a:wkletg = execute("let g:")
+  let a:letg = split(a:wkletg, "\n")
+  let a:listnames_d = []
+  let a:listnames_u = []
+  for a:line in a:letg
+    let a:listname = split(a:line, " ")[0]
+    if stridx(a:listname, "ncrement_d_wordlist_") == 0
+      call insert(a:listnames_d, a:listname)
+    elseif stridx(a:listname, "ncrement_u_wordlist_") == 0
+      call insert(a:listnames_u, a:listname)
+    endif
+  endfor
 
   if exists("g:ncrement_use_dlists") && g:ncrement_use_dlists == 0
-    let a:wordlists_d = []
+    let a:listnames_d = []
   endif
-  
-  let g:ncrement_wordlists = sort(a:wordlists_u) + sort(a:wordlists_d)
+
+  return sort(a:listnames_u) + sort(a:listnames_d)
+endfunction
+
+function! ncrement#check_word_lists() abort
+  if !exists("g:ncrement_autoupdate") || g:ncrement_autoupdate != 0
+    call ncrement#update_word_lists()
+  elseif !exists("g:ncrement_wordlists")
+    call ncrement#update_word_lists()
+  endif
+  let a:wordlist_names = <SID>fetch_wordlist_names()
+  for a:wordlist_name in a:wordlist_names
+    echo expand(execute("let g:" . a:wordlist_name))
+  endfor
 endfunction

@@ -19,3 +19,6 @@ endif
 if !exists(":UpdateWordLists")
   command! UpdateWordLists call ncrement#update_word_lists()
 endif
+if !exists(":CheckWordLists")
+  command! CheckWordLists call ncrement#check_word_lists()
+endif

@@ -105,3 +105,9 @@ To avoid it, you can have it perform only when you call.
 ============================================================
 Installation                             *ncrement-install*
 
+dein.vim
+    call dein#add('giwanaga/ncrement.vim')
+
+Not sure if the other plugin managers work fine.
+But mostly anyway should go well:)
+

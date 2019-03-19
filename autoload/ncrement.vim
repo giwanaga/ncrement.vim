@@ -22,9 +22,9 @@ endfunction
 
 function! s:fetch_wordlists() abort
   if !exists("g:ncrement_autoupdate") || g:ncrement_autoupdate != 0
-    call ncrement#update_word_list()
+    call ncrement#update_word_lists()
   elseif !exists("g:ncrement_wordlists")
-    call ncrement#update_word_list()
+    call ncrement#update_word_lists()
   endif
   return g:ncrement_wordlists
 endfunction
@@ -83,7 +83,7 @@ function! s:rotate_word_func(wordlists,way,count) abort
   execute "normal! " . expand(len(a:replacer)-1) . "h"
 endfunction
 
-function! ncrement#update_word_list() abort
+function! ncrement#update_word_lists() abort
   let a:wkletg = execute("let g:")
   let a:letg = split(a:wkletg, "\n")
   let a:wordlists_d = []

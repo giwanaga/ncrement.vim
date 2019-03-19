@@ -90,6 +90,6 @@ To avoid it, you can have it perform only when you call.
 let g:ncrement_autoupdate = 0
 ```
 
-`:UpdateWordList` is the command to update wordlists manually.
+`:UpdateWordLists` is the command to update wordlists manually.
 
 

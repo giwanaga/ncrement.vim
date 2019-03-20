@@ -84,8 +84,10 @@ function! s:rotate_word_func(wordlists,way,count) abort
   endif
 
   call cursor(line('.'), a:target_position)
-  execute "normal! v" . expand(len(a:targetword)-1) . "lc" . a:replacer
-  execute "normal! " . expand(len(a:replacer)-1) . "h"
+  let a:offset_forward = strlen(substitute(a:targetword, ".", "x", "g")) - 1
+  let a:offset_backward = strlen(substitute(a:replacer, ".", "x", "g")) - 1
+  execute "normal! v" . a:offset_forward . "lc" . a:replacer
+  execute "normal! " . a:offset_backward . "h"
 endfunction
 
 function! ncrement#update_word_lists() abort

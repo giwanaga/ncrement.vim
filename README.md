@@ -1,4 +1,7 @@
 # ncrement.vim
+Call it 'en-crement'.
+It's a kind of enhancer for your incremental/decremental actions.
+
 ncrement provides incremental/decremental word-shifting features.  
 It behaves similarly to `<C-a>` and `<C-d>` on your editing line.  
 Suppose execute `:NextWord` (a provided command of ncrement) to change "Monday" to "Tuesday".  
@@ -44,6 +47,18 @@ One `.vimrc` example here.
 nnoremap <silent><leader>n :NextWord<CR>
 nnoremap <silent><leader>p :PrevWord<CR>
 ```
+
+
+ncrement can get a parameter "count" as its offset.  
+`:2NextWord` changes "Monday" to "Wednesday" at once.  
+Perhaps more useful keymaps than the shown above are the following.  
+With them, `2<leader>n` behaves as same as above `:2NextWord`.
+
+```.vimrc
+nnoremap <silent><leader>n :<C-u>call ncrement#nextword(v:count1)<CR>
+nnoremap <silent><leader>p :<C-u>call ncrement#prevword(v:count1)<CR>
+```
+
 
 Execute `:CheckWordLists` to find current active word lists.
 

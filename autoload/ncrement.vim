@@ -95,10 +95,10 @@ function! ncrement#update_word_lists() abort
   for a:listname in a:listnames
     if stridx(a:listname, "ncrement_d_wordlist_") == 0
       call execute("let a:tmplist = g:" . a:listname)
-      call insert(a:wordlists_d, a:tmplist)
+      call add(a:wordlists_d, a:tmplist)
     elseif stridx(a:listname, "ncrement_u_wordlist_") == 0
       call execute("let a:tmplist = g:" . a:listname)
-      call insert(a:wordlists_u, a:tmplist)
+      call add(a:wordlists_u, a:tmplist)
     endif
   endfor
   
@@ -113,9 +113,9 @@ function! s:fetch_wordlist_names() abort
   for a:line in a:letg
     let a:listname = split(a:line, " ")[0]
     if stridx(a:listname, "ncrement_d_wordlist_") == 0
-      call insert(a:listnames_d, a:listname)
+      call add(a:listnames_d, a:listname)
     elseif stridx(a:listname, "ncrement_u_wordlist_") == 0
-      call insert(a:listnames_u, a:listname)
+      call add(a:listnames_u, a:listname)
     endif
   endfor
 
@@ -133,7 +133,29 @@ function! ncrement#check_word_lists() abort
     call ncrement#update_word_lists()
   endif
   let a:wordlist_names = <SID>fetch_wordlist_names()
+  let a:checkwordlists_result = ["[CheckWordLists Result]\n"]
   for a:wordlist_name in a:wordlist_names
-    echo expand(execute("let g:" . a:wordlist_name))
+    let a:tmpresult = expand(execute("let g:" . a:wordlist_name))
+    call add(a:checkwordlists_result, a:tmpresult)
   endfor
+
+  let a:bufname = "checkwordlists"
+  let a:windowsize = len(a:checkwordlists_result)+2
+  let a:windowsize = a:windowsize > 10 ? 10 : a:windowsize
+  if !bufexists(a:bufname)
+    execute a:windowsize . 'split'
+    edit `=a:bufname`
+    nnoremap <buffer> q <C-w>c
+    setlocal bufhidden=hide buftype=nofile noswapfile nobuflisted
+    setlocal fileformat=unix
+  elseif bufwinnr(a:bufname) != -1
+    execute bufwinnr(a:bufname) 'wincmd w'
+  else
+    execute a:windowsize . 'split'
+    edit `=a:bufname`
+  endif
+
+  execute ':%d_'
+  execute ':normal! i' . join(a:checkwordlists_result)
+  execute ':normal! gg'
 endfunction

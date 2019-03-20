@@ -15,7 +15,7 @@ Introduction                        *ncrement-introduction*
 features.
 It behaves similarly to <C-a> and <C-d> on your editing line.
 
-Suppose, execute :NextWord to change "Monday" to "Tuesday".
+Suppose, execute :NcrementNext to change "Monday" to "Tuesday".
 
 
 Inspired by monday.vim by Stefan Karisson.
@@ -24,17 +24,17 @@ https://www.vim.org/scripts/script.php?script_id=1046
 ============================================================
 Usage                                      *ncrement-usage*
 ------------------------------------------------------------
-                                                *:NextWord*
-:NextWord changes a word to next word in word lists.
-                                                *:PrevWord*
-:PrevWord is a backward one.
+                                            *:NcrementNext*
+:NcrementNext changes a word to next word in word lists.
+                                            *:NcrementPrev*
+:NcrementPrev is a backward one.
 
 Say you are editing line below, and your cursor is at its head.
 
     One fine day, it was Monday, a monkey finds a banana.
 
-You can change Monday to Tuesday to execute :NextWord.
-If :PrevWord is called instead, you'll find it becomes Sunday.
+You can change Monday to Tuesday to execute :NcrementNext.
+If :NcrementPrev is called instead, you'll find it becomes Sunday.
 
 These commands searches pre-defined word lists and your own ones.
 You have a day list, starts with Monday.
@@ -42,7 +42,7 @@ ncrement can rotate it. Monday is next to Sunday though they
 are first and last words in the day list.
 
 To have your own word lists, see |ncrement-ownlists|
-To check what words are available, refer to |:CheckWordLists|.
+To check what words are available, refer to |:NcrementCheckLists|.
 
 
                                         *ncrement-ownlists*
@@ -57,7 +57,7 @@ Names of your lists must start with "g:ncrement_u_wordlist_".
 
                                    *ncrement-ignoredefault*
 ncrement has some built-in word lists.
-|:CheckWordLists| is a command to check what are defined.
+|:NcrementCheckLists| is a command to check what are defined.
 Sometimes you may feel it annoying.
 To ignore the default lists, you have an option.
 
@@ -77,18 +77,18 @@ You would find unexpected behaviors with the word lists.
 
 One solution here.
 You can specify a word list to search with the commands below.
-                                              *:NextWordOf*
-    :NextWordOf {word_list_name}
-                                              *:PrevWordOf*
-    :PrevWordOf {word_list_name}
+                                          *:NcrementNextOf*
+    :NcrementNextOf {word_list_name}
+                                          *:NcrementPrevOf*
+    :NcrementPrevOf {word_list_name}
 
 A recommended way is keymap, such as the following.
 
-    nnoremap <silent><leader>w1n :<C-u>NextWordOf ncrement_u_wordlist_1<CR>
+    nnoremap <silent><leader>w1n :<C-u>NcrementNextOf ncrement_u_wordlist_1<CR>
 
 
-                                          *:CheckWordLists*
-You can check what are defined with a command :CheckWordLists.
+                                      *:NcrementCheckLists*
+You can check what are defined with a command :NcrementCheckLists.
 
                                       *ncrement-autoupdate*
 ncrement always fetches word lists to find your words.
@@ -99,8 +99,8 @@ To avoid it, you can have it perform only when you call.
 
     let g:ncrement_autoupdate=0
 
-                                         *:UpdateWordLists*
-:UpdateWordLists is the command to update word lists manually.
+                                     *:NcrementUpdateLists*
+:NcrementUpdateLists is the command to update word lists manually.
 
 ============================================================
 Sample Keymappings                    *ncrement-keymapping*
@@ -110,7 +110,7 @@ Sample Keymappings                    *ncrement-keymapping*
 
                                            *ncrement-count*
 ncrement can get a count parameter.
-`:2NextWord` changes "Monday" to "Wednesday" directly.
+`:2NcrementNext` changes "Monday" to "Wednesday" directly.
 The example keymaps enables you to call functions with count.
 With them, `2<leader>n` becomes to behave as same as the command above.
 

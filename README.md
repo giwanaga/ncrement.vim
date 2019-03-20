@@ -4,7 +4,7 @@ It's a kind of enhancer for your incremental/decremental actions.
 
 ncrement provides incremental/decremental word-shifting features.  
 It behaves similarly to `<C-a>` and `<C-d>` on your editing line.  
-Suppose execute `:NextWord` (a provided command of ncrement) to change "Monday" to "Tuesday".  
+Suppose execute `:NcrementNext` (a provided command of ncrement) to change "Monday" to "Tuesday".  
 
 Inspired by [monday.vim](https://www.vim.org/scripts/script.php?script_id=1046) by Stefan Karisson.
 
@@ -22,7 +22,7 @@ I'll come to the office next Monday.
 ^
 ```
 
-Execute `:NextWord` to replace "Monday" to "Tuesday".  
+Execute `:NcrementNext` to replace "Monday" to "Tuesday".  
 Now your cursor moved to the word found.
 
 ```example.txt
@@ -30,7 +30,7 @@ I'll come to the office next Tuesday.
                              ^
 ```
 
-If you think twice and change the day to Monday again, you can execute `:PrevWord` to turn it back, instead of undo.
+If you think twice and change the day to Monday again, you can execute `:NcrementPrev` to turn it back, instead of undo.
 
 And ncrement *rotates* lists.
 Monday is next to Sunday though they are at first and last positions of the list above.
@@ -38,21 +38,21 @@ Monday is next to Sunday though they are at first and last positions of the list
 
 ## Usage
 ### Basic Usage
-`:NextWord` changes a word to next word in pre-defined list.  
-`:PrevWord` is for reverse direction.
+`:NcrementNext` changes a word to next word in pre-defined list.  
+`:NcrementPrev` is for reverse direction.
 
 One `.vimrc` example here.
 
 ```.vimrc
-nnoremap <silent><leader>n :NextWord<CR>
-nnoremap <silent><leader>p :PrevWord<CR>
+nnoremap <silent><leader>n :NcrementNext<CR>
+nnoremap <silent><leader>p :NcrementPrev<CR>
 ```
 
 
 ncrement can get a parameter "count" as its offset.  
-`:2NextWord` changes "Monday" to "Wednesday" at once.  
+`:2NcrementNext` changes "Monday" to "Wednesday" at once.  
 Perhaps more useful keymaps than the shown above are the following.  
-With them, `2<leader>n` behaves as same as above `:2NextWord`.
+With them, `2<leader>n` behaves as same as above `:2NcrementNext`.
 
 ```.vimrc
 nnoremap <silent><leader>n :<C-u>call ncrement#nextword(v:count1)<CR>
@@ -60,22 +60,22 @@ nnoremap <silent><leader>p :<C-u>call ncrement#prevword(v:count1)<CR>
 ```
 
 
-Execute `:CheckWordLists` to find current active word lists.
+Execute `:NcrementCheckLists` to find current active word lists.
 
 ### Advanced Usage
 You can specify a word list to be searched by ncrement.
 
 ```.vimrc
 let g:ncrement_u_wordlist_pod = ["morning", "afternoon", "evening"]
-nnoremap <silent><leader>sn :NextWordOf ncrement_u_wordlist_pod<CR>
-nnoremap <silent><leader>sp :PrevWordOf ncrement_u_wordlist_pod<CR>
+nnoremap <silent><leader>sn :NcrementNextOf ncrement_u_wordlist_pod<CR>
+nnoremap <silent><leader>sp :NcrementPrevOf ncrement_u_wordlist_pod<CR>
 ```
 
 Let's suppose that you have a line editing as "TARGET LINE" below.  
 Your cursor is at its head.  
-When you execute ":NextWord", you find "Monday" becomes "Tuesday",  
+When you execute ":NcrementNext", you find "Monday" becomes "Tuesday",  
 because "Monday" is the nearest target to your cursor.  
-`:NextWordOf ncrement_u_wordlist_pod` searches only words in the specified word list.  
+`:NcrementNextOf ncrement_u_wordlist_pod` searches only words in the specified word list.  
 I.e. "afternoon" hits first and gets replaced to "evening".  
 "Monday" is out of its targets.
 
@@ -83,10 +83,10 @@ I.e. "afternoon" hits first and gets replaced to "evening".
 <TARGET LINE>
 Monday afternoon
 
-:NextWord
+:NcrementNext
 Tuesday afternoon
 
-:NextWordOf ncrement_u_wordlist_pod
+:NcrementNextOf ncrement_u_wordlist_pod
 Monday evening
 ```
 
@@ -108,7 +108,7 @@ To avoid it, you can have it perform only when you call.
 let g:ncrement_autoupdate = 0
 ```
 
-`:UpdateWordLists` is the command to update word lists manually.
+`:NcrementUpdateLists` is the command to update word lists manually.
 
 
 ## Installation

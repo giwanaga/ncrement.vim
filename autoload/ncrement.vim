@@ -21,8 +21,8 @@ function! s:fetch_wordlists_specified(listname) abort
   elseif !exists("g:ncrement_wordlists")
     call ncrement#update_word_lists()
   endif
-  call execute("let a:tmplist = g:" . a:listname)
-  return [a:tmplist]
+  call execute("let l:tmplist = g:" . l:listname)
+  return [l:tmplist]
 endfunction
 
 function! s:fetch_wordlists() abort
@@ -35,97 +35,97 @@ function! s:fetch_wordlists() abort
 endfunction
 
 function! s:rotate_word_of(listname,way,count) abort
-  let a:wordlists = <SID>fetch_wordlists_specified(a:listname)
+  let l:wordlists = <SID>fetch_wordlists_specified(a:listname)
   call <SID>rotate_word_func(a:wordlists,a:way,a:count)
 endfunction
 
 function! s:rotate_word(way,count) abort
-  let a:wordlists = <SID>fetch_wordlists()
-  call <SID>rotate_word_func(a:wordlists,a:way,a:count)
+  let l:wordlists = <SID>fetch_wordlists()
+  call <SID>rotate_word_func(l:wordlists,a:way,a:count)
 endfunction
 
 function! s:rotate_word_func(wordlists,way,count) abort
-  let a:word_positions = {}
-  let a:cursor_col = col('.')-1
-  let a:workline = getline('.')[a:cursor_col:]
+  let l:word_positions = {}
+  let l:cursor_col = col('.')-1
+  let l:workline = getline('.')[l:cursor_col:]
 
-  for a:wordlist in a:wordlists
-    for a:word in a:wordlist
-      let a:foundidx = stridx(a:workline, a:word)
-      if a:foundidx > -1
-        let a:word_positions[a:word] = a:foundidx + a:cursor_col
+  for l:wordlist in a:wordlists
+    for l:word in l:wordlist
+      let l:foundidx = stridx(l:workline, l:word)
+      if l:foundidx > -1
+        let l:word_positions[l:word] = l:foundidx + l:cursor_col
       endif
     endfor
   endfor
 
   " Get the closest target.
-  if empty(a:word_positions)
+  if empty(l:word_positions)
     echo "no word matches"
     return
   endif
-  call filter(a:word_positions, "v:val <= " . min(a:word_positions))
-  let a:targetword = keys(a:word_positions)[0]
-  for a:wordlist in g:ncrement_wordlists
-    if count(a:wordlist,a:targetword) > 0
-      let a:target_position = a:word_positions[a:targetword] + 1
+  call filter(l:word_positions, "v:val <= " . min(l:word_positions))
+  let l:targetword = keys(l:word_positions)[0]
+  for l:wordlist in g:ncrement_wordlists
+    if count(l:wordlist,l:targetword) > 0
+      let l:target_position = l:word_positions[l:targetword] + 1
 
-      let a:nextidx = (index(a:wordlist,a:targetword)+a:count) % len(a:wordlist)
-      let a:nextword = a:wordlist[a:nextidx]
+      let l:nextidx = (index(l:wordlist,l:targetword)+a:count) % len(l:wordlist)
+      let l:nextword = l:wordlist[l:nextidx]
 
-      let a:previdx = (index(a:wordlist,a:targetword)-a:count) % len(a:wordlist)
-      let a:prevword = a:wordlist[a:previdx]
+      let l:previdx = (index(l:wordlist,l:targetword)-a:count) % len(l:wordlist)
+      let l:prevword = l:wordlist[l:previdx]
     endif
   endfor
 
   if a:way == 1
-    let a:replacer = a:nextword
+    let l:replacer = l:nextword
   else
-    let a:replacer = a:prevword
+    let l:replacer = l:prevword
   endif
 
-  call cursor(line('.'), a:target_position)
-  let a:offset_forward = strlen(substitute(a:targetword, ".", "x", "g")) - 1
-  let a:offset_backward = strlen(substitute(a:replacer, ".", "x", "g")) - 1
-  execute "normal! v" . a:offset_forward . "lc" . a:replacer
-  execute "normal! " . a:offset_backward . "h"
+  call cursor(line('.'), l:target_position)
+  let l:offset_forward = strlen(substitute(l:targetword, ".", "x", "g")) - 1
+  let l:offset_backward = strlen(substitute(l:replacer, ".", "x", "g")) - 1
+  execute "normal! v" . l:offset_forward . "lc" . l:replacer
+  execute "normal! " . l:offset_backward . "h"
 endfunction
 
 function! ncrement#update_word_lists() abort
-  let a:listnames = <SID>fetch_wordlist_names()
-  let a:wordlists_d = []
-  let a:wordlists_u = []
-  for a:listname in a:listnames
-    if stridx(a:listname, "ncrement_d_wordlist_") == 0
-      call execute("let a:tmplist = g:" . a:listname)
-      call add(a:wordlists_d, a:tmplist)
-    elseif stridx(a:listname, "ncrement_u_wordlist_") == 0
-      call execute("let a:tmplist = g:" . a:listname)
-      call add(a:wordlists_u, a:tmplist)
+  let l:listnames = <SID>fetch_wordlist_names()
+  let l:wordlists_d = []
+  let l:wordlists_u = []
+  for l:listname in l:listnames
+    if stridx(l:listname, "ncrement_d_wordlist_") == 0
+      call execute("let l:tmplist = g:" . l:listname)
+      call add(l:wordlists_d, l:tmplist)
+    elseif stridx(l:listname, "ncrement_u_wordlist_") == 0
+      call execute("let l:tmplist = g:" . l:listname)
+      call add(l:wordlists_u, l:tmplist)
     endif
   endfor
   
-  let g:ncrement_wordlists = a:wordlists_u + a:wordlists_d
+  let g:ncrement_wordlists = l:wordlists_u + l:wordlists_d
 endfunction
 
 function! s:fetch_wordlist_names() abort
-  let a:wkletg = execute("let g:")
-  let a:letg = split(a:wkletg, "\n")
-  let a:listnames_d = []
-  let a:listnames_u = []
-  for a:line in a:letg
-    let a:listname = split(a:line, " ")[0]
-    if stridx(a:listname, "ncrement_d_wordlist_") == 0
-      call add(a:listnames_d, a:listname)
-    elseif stridx(a:listname, "ncrement_u_wordlist_") == 0
-      call add(a:listnames_u, a:listname)
+  let l:wkletg = execute("let g:")
+  let l:letg = split(l:wkletg, "\n")
+  let l:listnames_d = []
+  let l:listnames_u = []
+  for l:line in l:letg
+    let l:listname = split(l:line, " ")[0]
+    if stridx(l:listname, "ncrement_d_wordlist_") == 0
+      call add(l:listnames_d, l:listname)
+    elseif stridx(l:listname, "ncrement_u_wordlist_") == 0
+      call add(l:listnames_u, l:listname)
     endif
   endfor
 
   if exists("g:ncrement_use_dlists") && g:ncrement_use_dlists == 0
-    let a:listnames_d = []
+    let l:listnames_d = []
   endif
 
-  return sort(a:listnames_u) + sort(a:listnames_d)
+  return sort(l:listnames_u) + sort(l:listnames_d)
 endfunction
 
 function! ncrement#check_word_lists() abort
@@ -134,30 +134,30 @@ function! ncrement#check_word_lists() abort
   elseif !exists("g:ncrement_wordlists")
     call ncrement#update_word_lists()
   endif
-  let a:wordlist_names = <SID>fetch_wordlist_names()
-  let a:checkwordlists_result = ["[CheckWordLists Result]\n"]
-  for a:wordlist_name in a:wordlist_names
-    let a:tmpresult = expand(execute("let g:" . a:wordlist_name))
-    call add(a:checkwordlists_result, a:tmpresult)
+  let l:wordlist_names = <SID>fetch_wordlist_names()
+  let l:checkwordlists_result = ["[CheckWordLists Result]\n"]
+  for l:wordlist_name in l:wordlist_names
+    let l:tmpresult = expand(execute("let g:" . l:wordlist_name))
+    call add(l:checkwordlists_result, l:tmpresult)
   endfor
 
-  let a:bufname = "checkwordlists"
-  let a:windowsize = len(a:checkwordlists_result)+2
-  let a:windowsize = a:windowsize > 10 ? 10 : a:windowsize
-  if !bufexists(a:bufname)
-    execute a:windowsize . 'split'
-    edit `=a:bufname`
+  let l:bufname = "checkwordlists"
+  let l:windowsize = len(l:checkwordlists_result)+2
+  let l:windowsize = l:windowsize > 10 ? 10 : l:windowsize
+  if !bufexists(l:bufname)
+    execute l:windowsize . 'split'
+    edit `=l:bufname`
     nnoremap <buffer> q <C-w>c
     setlocal bufhidden=hide buftype=nofile noswapfile nobuflisted
     setlocal fileformat=unix
-  elseif bufwinnr(a:bufname) != -1
-    execute bufwinnr(a:bufname) 'wincmd w'
+  elseif bufwinnr(l:bufname) != -1
+    execute bufwinnr(l:bufname) 'wincmd w'
   else
-    execute a:windowsize . 'split'
-    edit `=a:bufname`
+    execute l:windowsize . 'split'
+    edit `=l:bufname`
   endif
 
   execute ':%d_'
-  execute ':normal! i' . join(a:checkwordlists_result)
+  execute ':normal! i' . join(l:checkwordlists_result)
   execute ':normal! gg'
 endfunction
